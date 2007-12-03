@@ -1,7 +1,7 @@
 # Makefile for StencilProbe
 #
 #
-CC = icc
+CC = gcc
 COPTFLAGS = $(PAPI) -O3
 CLDFLAGS = $(PAPI)
 
