@@ -14,7 +14,8 @@
 /* run.h has the run parameters */
 #include "run.h"
 
-void StencilProbe(int nx, int ny, int nz, double* A0, double* Anext);
+void StencilProbe(double* A0, double* Anext, int nx, int ny, int nz,
+                  int tx, int ty, int tz, int timesteps);
 
 int main(int argc,char *argv[])
 {
@@ -49,7 +50,7 @@ int main(int argc,char *argv[])
 	t1 = getticks();	
   	
 	/* stencl function */ 
-	StencilProbe(nx, ny, nz,  A0, Anext);
+	StencilProbe(A0, Anext, nx, ny, nz, -1, -1, -1, 1);
 
 	t2 = getticks();
 

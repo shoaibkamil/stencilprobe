@@ -4,9 +4,8 @@
 */
 #include "common.h"
 
-void
-StencilProbe (int nx, int ny, int nz, double * A0, double * Anext)
-	       
+void StencilProbe(double* A0, double* Anext, int nx, int ny, int nz,
+                  int tx, int ty, int tz, int timesteps)
 {
   /* Fool compiler so it doesn't insert a constant here */
   double fac = A0[0];

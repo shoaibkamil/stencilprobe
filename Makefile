@@ -13,7 +13,7 @@ CLDFLAGS = $(PAPI)
 probe:	main.c util.c run.h probe_heat.c cycle.h
 	$(CC) $(COPTFLAGS) main.c util.c probe_heat.c $(CLDFLAGS) -o probe
 
-blocked_probe:	main.c util.c run.h probe_heat_blocked.c cycle.h
+blocked_probe:	main.c util.c probe_heat_blocked.c cycle.h
 	$(CC) $(COPTFLAGS) main.c util.c probe_heat_blocked.c $(CLDFLAGS) -o probe
 
 clean:
