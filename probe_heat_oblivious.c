@@ -47,12 +47,14 @@ void walk3(double* A[], int nx, int ny, int nz,
 			walk3(A,nx,ny,nz,t0,t1,x0,dx0,x1,dx1,y0,dy0,ym,-ds,z0,dz0,z1,dz1);
 			walk3(A,nx,ny,nz,t0,t1,x0,dx0,x1,dx1,ym,-ds,y1,dy1,z0,dz0,z1,dz1);
 		}
+#ifndef NOCUTINX
 		else if (2* (x1-x0) + (dx1-dx0) * dt >= 4 * ds * dt)
 		{
 			int xm = (2* (x0+x1) + (2*ds+dx0+dx1) * dt) / 4;
 			walk3(A,nx,ny,nz,t0,t1,x0,dx0,xm,-ds,y0,dy0,y1,dy1,z0,dz0,z1,dz1);
 			walk3(A,nx,ny,nz,t0,t1,xm,-ds,x1,dx1,y0,dy0,y1,dy1,z0,dz0,z1,dz1);
 		}
+#endif
 		else
 		{
 			int s = dt/2;
