@@ -9,25 +9,32 @@ void StencilProbe(double* A0, double* Anext, int nx, int ny, int nz,
 {
   /* Fool compiler so it doesn't insert a constant here */
   double fac = A0[0];
-  int i, j, k;
+  double *myA0, *myAnext;
+  int t, i, j, k;
 
-
-  /* Standard 3 nested loops stencil */
-  for (k = 1; k < nz - 1; k++)
+  for (t = 0; t < timesteps; t++)
+  {
+    if (!(t%2))
+    { myA0 = A0; myAnext = Anext; }
+    else
+    { myA0 = Anext; myAnext = A0; }
+    /* Standard 3 nested loops stencil */
+   for (k = 1; k < nz - 1; k++)
     {
       for (j = 1; j < ny - 1; j++)
 	{
 	  for (i = 1; i < nx - 1; i++)
 	    {
-		Anext[Index3D (nx, ny, i, j, k)] = 
-			A0[Index3D (nx, ny, i, j, k + 1)] +
-		    A0[Index3D (nx, ny, i, j, k - 1)] +
-		    A0[Index3D (nx, ny, i, j + 1, k)] +
-		    A0[Index3D (nx, ny, i, j - 1, k)] +
-		    A0[Index3D (nx, ny, i + 1, j, k)] +
-		    A0[Index3D (nx, ny, i - 1, j, k)]
-			- 6.0 * A0[Index3D (nx, ny, i, j, k)] / (fac*fac);
+		myAnext[Index3D (nx, ny, i, j, k)] = 
+			myA0[Index3D (nx, ny, i, j, k + 1)] +
+		    myA0[Index3D (nx, ny, i, j, k - 1)] +
+		    myA0[Index3D (nx, ny, i, j + 1, k)] +
+		    myA0[Index3D (nx, ny, i, j - 1, k)] +
+		    myA0[Index3D (nx, ny, i + 1, j, k)] +
+		    myA0[Index3D (nx, ny, i - 1, j, k)]
+			- 6.0 * myA0[Index3D (nx, ny, i, j, k)] / (fac*fac);
 	    }
 	}
+    }
     }
 }

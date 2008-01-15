@@ -14,8 +14,16 @@ void StencilProbe(double* A0, double* Anext, int nx, int ny, int nz,
 {
   /* Fool compiler so it doesn't insert a constant here */
   double fac = A0[0];
-  int i, ii, j, jj, k;
+  double *myA0, *myAnext;
+  int t, i, ii, j, jj, k;
 
+
+for (t = 0; t < timesteps; t++)
+  {
+    if (!(t%2))
+    { myA0 = A0; myAnext = Anext; }
+    else
+    { myA0 = Anext; myAnext = A0; }
 
   /* Cache blocked stencil (due to Rivera) */
 for (jj = 1; jj < ny-1; jj+=TJ)
@@ -37,4 +45,5 @@ for (jj = 1; jj < ny-1; jj+=TJ)
 	    }
 	}
     }
+  }
 }

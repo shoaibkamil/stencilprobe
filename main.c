@@ -50,7 +50,7 @@ int main(int argc,char *argv[])
 	t1 = getticks();	
   	
 	/* stencl function */ 
-	StencilProbe(A0, Anext, nx, ny, nz, -1, -1, -1, 1);
+	StencilProbe(A0, Anext, nx, ny, nz, BLOCKX, BLOCKY, BLOCKZ, TIMESTEPS);
 
 	t2 = getticks();
 
