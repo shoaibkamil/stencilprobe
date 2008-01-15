@@ -10,6 +10,9 @@ CLDFLAGS = $(PAPI)
 # should be set to -DHAVE_PAPI or -DHAVEGETTIMEOFDAY or unset.
 #TIMER = -DHAVE_PAPI
 
+timeskew_probe:	main.c util.c run.h probe_heat_oblivious.c cycle.h
+	$(CC) $(COPTFLAGS) main.c util.c probe_heat_timeskew.c $(CLDFLAGS) -o probe
+
 oblivious_probe:	main.c util.c run.h probe_heat_oblivious.c cycle.h
 	$(CC) $(COPTFLAGS) main.c util.c probe_heat_oblivious.c $(CLDFLAGS) -o probe
 
