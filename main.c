@@ -21,11 +21,28 @@ int main(int argc,char *argv[])
 {
    double *Anext;
    double *A0;
-   const int nx=SIZE,ny=SIZE,nz=SIZE;
+   int nx,ny,nz,tx,ty,tz,timesteps;
    int i;
 
 	ticks t1, t2;
 	double spt;
+
+  /* parse command line options */
+  if (argc < 8)
+  {
+    printf("Usage: %s <grid x> <grid y> <grid z> <block x> <block y> <block z> <timesteps>\n", argv[0]);
+    return 1;
+  }
+  
+  nx = atoi(argv[1]);
+  ny = atoi(argv[2]);
+  nz = atoi(argv[3]);
+  tx = atoi(argv[4]);
+  ty = atoi(argv[5]);
+  tz = atoi(argv[6]);
+  timesteps = atoi(argv[7]);
+  printf("%dx%dx%d, blocking: %dx%dx%d, timesteps: %d\n",
+    nx,ny,nz,tx,ty,tz,timesteps);
 
 #ifdef HAVE_PAPI
 	PAPI_library_init(PAPI_VER_CURRENT);
@@ -50,7 +67,7 @@ int main(int argc,char *argv[])
 	t1 = getticks();	
   	
 	/* stencl function */ 
-	StencilProbe(A0, Anext, nx, ny, nz, BLOCKX, BLOCKY, BLOCKZ, TIMESTEPS);
+	StencilProbe(A0, Anext, nx, ny, nz, tx, ty, tz, timesteps);
 
 	t2 = getticks();
 

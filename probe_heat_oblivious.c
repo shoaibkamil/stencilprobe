@@ -73,28 +73,3 @@ void StencilProbe(double* A0, double* Anext, int nx, int ny, int nz,
           1, 0, nz-1, 0);
 }
 
-void probe_naive(int* nx, int* ny, int* nz, double* A0, double* Anext)
-{
-    double* A[2] = {A0, Anext};
-    int x,y,z;
-    int numx,numy,numz;
-    double fac = 1.0;
-    int t=0;
-
-    numx = *nx;
-    numy = *ny;
-    numz = *nz;
-
-    for (z=1; z<numz-1; z++)
-        for (y=1; y<numy-1; y++)
-            for (x=1; x<numx-1; x++)
-                A[(t+1)%2][idx(x,y,z,numx,numy,numz)] =
-                    (A[t%2][idx((x+1),y,z,numx,numy,numz)]
-                     + A[t%2][idx((x-1),y,z,numx,numy,numz)]
-                     + A[t%2][idx(x,(y+1),z,numx,numy,numz)]
-                     + A[t%2][idx(x,(y-1),z,numx,numy,numz)]
-                     + A[t%2][idx(x,y,(z+1),numx,numy,numz)]
-                     + A[t%2][idx(x,y,(z-1),numx,numy,numz)]
-                     - 6.0*A[t%2][idx(x,y,z,numx,numy,numz)]) / (fac*fac);
-} 
-
