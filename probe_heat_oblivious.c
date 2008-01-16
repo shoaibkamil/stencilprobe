@@ -60,8 +60,13 @@ void walk3(double* A[], int nx, int ny, int nz,
     }
 }
 
+#ifdef STENCILTEST
+void StencilProbe_oblivious(double* A0, double* Anext, int nx, int ny, int nz,
+                  int tx, int ty, int tz, int timesteps)
+#else
 void StencilProbe(double* A0, double* Anext, int nx, int ny, int nz,
                   int tx, int ty, int tz, int timesteps)
+#endif
 {
     double* A[2] = {A0, Anext};
     int i;

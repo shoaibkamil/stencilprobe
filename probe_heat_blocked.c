@@ -9,8 +9,13 @@
 #define TJ ty
 #define TK tz
 
+#ifdef STENCILTEST
+void StencilProbe_rivera(double* A0, double* Anext, int nx, int ny, int nz,
+                  int tx, int ty, int tz, int timesteps)
+#else
 void StencilProbe(double* A0, double* Anext, int nx, int ny, int nz,
                   int tx, int ty, int tz, int timesteps)
+#endif
 {
   /* Fool compiler so it doesn't insert a constant here */
   double fac = A0[0];

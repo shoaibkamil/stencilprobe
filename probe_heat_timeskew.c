@@ -25,9 +25,13 @@
    still respecting boundary conditions.
    NOTE: Positive slopes indicate that each iteration goes further out from the center
    of the current cache block, while negative slopes go toward the block center. */
+#ifdef STENCILTEST
+void StencilProbe_timeskew(double *A0, double *Anext, int nx, int ny, int nz,
+  int tx, int ty, int tz, int timesteps) {
+#else
 void StencilProbe(double *A0, double *Anext, int nx, int ny, int nz,
   int tx, int ty, int tz, int timesteps) {
-
+#endif
   /* Formerly globals */
   uint32_t numBlocks_x = nx / tx;
   uint32_t numBlocks_y = ny / ty;
