@@ -17,6 +17,7 @@
 
 void StencilProbe(double* A0, double* Anext, int nx, int ny, int nz,
                   int tx, int ty, int tz, int timesteps);
+void check_vals(double* A, double* B, int nx, int ny, int nz);
 
 int main(int argc,char *argv[])
 {
@@ -76,37 +77,72 @@ int main(int argc,char *argv[])
   check_vals(Anext_naive, Anext_test, nx, ny, nz);
 
 	/* initialize arrays to all ones */
-   	StencilInit(nx,ny,nz,Anext_naive);
-   	StencilInit(nx,ny,nz,A0_naive);
+//   	StencilInit(nx,ny,nz,Anext_naive);
+//   	StencilInit(nx,ny,nz,A0_naive);
   /* copy into test arrays */
-    for (j=0; j<nx*ny*nz; j++)
-    {
-      Anext_test[j] = Anext_naive[j];
-      A0_test[j] = A0_naive[j];
-    }
+//    for (j=0; j<nx*ny*nz; j++)
+//    {
+//      Anext_test[j] = Anext_naive[j];
+//      A0_test[j] = A0_naive[j];
+//    }
 	/* stencil function */ 
-  printf("Checking Cache-Oblivious blocking...\n");
-	StencilProbe_naive(A0_naive, Anext_naive, nx, ny, nz, tx, ty, tz, timesteps);
-  StencilProbe_oblivious(A0_test, Anext_test, nx, ny, nz, tx, ty, tz, timesteps);
-  check_vals(Anext_naive, Anext_test, nx, ny, nz);
+//  printf("Checking Cache-Oblivious blocking...\n");
+//	StencilProbe_naive(A0_naive, Anext_naive, nx, ny, nz, tx, ty, tz, timesteps);
+//  StencilProbe_oblivious(A0_test, Anext_test, nx, ny, nz, tx, ty, tz, timesteps);
+//  check_vals(Anext_naive, Anext_test, nx, ny, nz);
+
+	/* initialize arrays to all ones */
+//   	StencilInit(nx,ny,nz,Anext_naive);
+//   	StencilInit(nx,ny,nz,A0_naive);
+  /* copy into test arrays */
+//    for (j=0; j<nx*ny*nz; j++)
+//    {
+//      Anext_test[j] = Anext_naive[j];
+//      A0_test[j] = A0_naive[j];
+//    }
+	/* stencil function */ 
+//  printf("Checking Time-Skewed blocking...\n");
+//	StencilProbe_naive(A0_naive, Anext_naive, nx, ny, nz, tx, ty, tz, timesteps);
+//  StencilProbe_timeskew(A0_test, Anext_test, nx, ny, nz, tx, ty, tz, timesteps);
+//  check_vals(Anext_naive, Anext_test, nx, ny, nz);
 
 
 
 	/* free arrays */
    free(Anext_naive);
    free(A0_naive);
+   free(Anext_test);
+   free(A0_test);
 }
 
 void check_vals(double* A, double* B, int nx, int ny, int nz)
 {
   int i, same, different;
+  int j,k;
   same=different=0;
-
+/*
   for (i=0; i<nx*ny*nz; i++)
     if (A[i] == B[i] || fabs(A[i]-B[i]) < 0.001  )
       same++;
-    else
+    else {
       different++;
+      printf("at index %d---A: %3.2g, B %3.2g\n", i, A[i], B[i]);
+      }
+  */
+  for (i=0; i<nx; i++)
+    for (j=0; j<ny; j++)
+      for (k=0; k<nz; k++)
+        {
+          if (A[Index3D(nx,ny, i, j, k)] == B[Index3D(nx, ny, i, j, k)] ||
+            fabs(A[Index3D(nx,ny,i,j,k)] - B[Index3D(nx,ny,i,j,k)]) < 0.001)
+              same++;
+          else {
+            different++;
+            printf("at index %d %d %d --- A: %3.2g, B %3.2g\n", i, j, k,
+              A[Index3D(nx,ny,i,j,k)], B[Index3D(nx,ny,i,j,k)]);
+          }
+
+        }
 
   printf("Same: %d   Different: %d\n", same, different);
 
