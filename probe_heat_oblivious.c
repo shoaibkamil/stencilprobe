@@ -1,5 +1,6 @@
 #define ds 1
 #include "run.h"
+#include "common.h"
 
 #define idx(_i,_j,_k,_nx,_ny,_nz) ((_i)+(_nx)*((_j)+(_ny)*(_k)))
 
@@ -14,11 +15,13 @@ void walk3(double* A[], int nx, int ny, int nz,
     {
         int x,y,z,t;
         double fac = A[0][0];
+
 				for (t=t0;t<t1;t++)
 					for (z=z0+(t-t0)*dz0;z<z1+(t-t0)*dz1;z++)
               for (y=y0+(t-t0)*dy0;y<y1+(t-t0)*dy1;y++)
                   for (x=x0+(t-t0)*dx0;x<x1+(t-t0)*dx1;x++)
                 {
+                    /*
                     A[(t+1)%2][idx(x,y,z,nx+2,ny+2,nz+2)] =
                         (A[t%2][idx((x+1),y,z,nx+2,ny+2,nz+2)]
                          + A[t%2][idx((x-1),y,z,nx+2,ny+2,nz+2)]
@@ -27,6 +30,15 @@ void walk3(double* A[], int nx, int ny, int nz,
                          + A[t%2][idx(x,y,(z+1),nx+2,ny+2,nz+2)]
                          + A[t%2][idx(x,y,(z-1),nx+2,ny+2,nz+2)]
                          - 6.0*A[t%2][idx(x,y,z,nx+2,ny+2,nz+2)]) / (fac*fac);
+                     */
+                     A[(t+1)%2][Index3D (nx,ny,x,y,z)] =
+                        (A[t%2][Index3D (nx,ny,x+1,y,z)]
+                         + A[t%2][Index3D (nx,ny,x-1,y,z)]
+                         + A[t%2][Index3D (nx,ny,x,y+1,z)]
+                         + A[t%2][Index3D (nx,ny,x,y-1,z)]
+                         + A[t%2][Index3D (nx,ny,x,y,z+1)]
+                         + A[t%2][Index3D (nx,ny,x,y,z-1)]
+                         - 6.0*A[t%2][Index3D (nx,ny,x,y,z)]) / (fac*fac);
                 }
     }
     else if (dt > 1)
@@ -71,7 +83,7 @@ void StencilProbe(double* A0, double* Anext, int nx, int ny, int nz,
     double* A[2] = {A0, Anext};
     int i;
 
-    walk3(A, nx-2, ny-2, nz-2,
+    walk3(A, nx, ny, nz,
           0, timesteps,
           1, 0, nx-1, 0,
           1, 0, ny-1, 0,
