@@ -92,19 +92,19 @@ int main(int argc,char *argv[])
     check_vals(Anext_naive, Anext_test, nx, ny, nz);
 
 	/* initialize arrays to all ones */
-//   	StencilInit(nx,ny,nz,Anext_naive);
-//   	StencilInit(nx,ny,nz,A0_naive);
+   	StencilInit(nx,ny,nz,Anext_naive);
+   	StencilInit(nx,ny,nz,A0_naive);
   /* copy into test arrays */
-//    for (j=0; j<nx*ny*nz; j++)
-//    {
-//      Anext_test[j] = Anext_naive[j];
-//      A0_test[j] = A0_naive[j];
-//    }
+    for (j=0; j<nx*ny*nz; j++)
+    {
+      Anext_test[j] = Anext_naive[j];
+      A0_test[j] = A0_naive[j];
+    }
 	/* stencil function */ 
-//  printf("Checking Time-Skewed blocking...\n");
-//	StencilProbe_naive(A0_naive, Anext_naive, nx, ny, nz, tx, ty, tz, timesteps);
-//  StencilProbe_timeskew(A0_test, Anext_test, nx, ny, nz, tx, ty, tz, timesteps);
-//  check_vals(Anext_naive, Anext_test, nx, ny, nz);
+  printf("Checking Time-Skewed blocking...\n");
+	StencilProbe_naive(A0_naive, Anext_naive, nx, ny, nz, tx, ty, tz, timesteps);
+  StencilProbe_timeskew(A0_test, Anext_test, nx-2, ny-2, nz-2, tx, ty, tz, timesteps);
+  check_vals(Anext_naive, Anext_test, nx, ny, nz);
 
 
 
