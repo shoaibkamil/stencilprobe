@@ -103,7 +103,7 @@ int main(int argc,char *argv[])
 	/* stencil function */ 
   printf("Checking Time-Skewed blocking...\n");
 	StencilProbe_naive(A0_naive, Anext_naive, nx, ny, nz, tx, ty, tz, timesteps);
-  StencilProbe_timeskew(A0_test, Anext_test, nx-2, ny-2, nz-2, tx, ty, tz, timesteps);
+  StencilProbe_timeskew(A0_test, Anext_test, nx, ny, nz, tx, ty, tz, timesteps);
   check_vals(Anext_naive, Anext_test, nx, ny, nz);
 
 
