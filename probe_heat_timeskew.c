@@ -28,6 +28,7 @@ void StencilProbe(double *A0, double *Anext, int nx, int ny, int nz,
   int tx, int ty, int tz, int timesteps) {
 #endif
   double fac = A0[0];
+  double *temp_ptr;
   double *myA0, *myAnext;
 
   int neg_x_slope, pos_x_slope, neg_y_slope, pos_y_slope, neg_z_slope, pos_z_slope;
@@ -66,12 +67,10 @@ void StencilProbe(double *A0, double *Anext, int nx, int ny, int nz,
 	  pos_x_slope = 0;
 	}
 
+	myA0 = A0;
+	myAnext = Anext;
+	
 	for (t=0; t < timesteps; t++) {
-	  if (!(t%2))
-	    { myA0 = A0; myAnext = Anext; }
-	  else
-	    { myA0 = Anext; myAnext = A0; }
-
 	  blockMin_x = MAX(1, ii - t * neg_x_slope);
 	  blockMin_y = MAX(1, jj - t * neg_y_slope);
 	  blockMin_z = MAX(1, kk - t * neg_z_slope);
@@ -84,16 +83,19 @@ void StencilProbe(double *A0, double *Anext, int nx, int ny, int nz,
 	    for (j=blockMin_y; j < blockMax_y; j++) {
 	      for (i=blockMin_x; i < blockMax_x; i++) {
 		myAnext[Index3D (nx, ny, i, j, k)] = 
-		  myA0[Index3D (nx, ny, i, j, k + 1)] +
-		  myA0[Index3D (nx, ny, i, j, k - 1)] +
-		  myA0[Index3D (nx, ny, i, j + 1, k)] +
-		  myA0[Index3D (nx, ny, i, j - 1, k)] +
-		  myA0[Index3D (nx, ny, i + 1, j, k)] +
-		  myA0[Index3D (nx, ny, i - 1, j, k)]
+		  myA0[Index3D (nx, ny, i, j, k+1)] +
+		  myA0[Index3D (nx, ny, i, j, k-1)] +
+		  myA0[Index3D (nx, ny, i, j+1, k)] +
+		  myA0[Index3D (nx, ny, i, j-1, k)] +
+		  myA0[Index3D (nx, ny, i+1, j, k)] +
+		  myA0[Index3D (nx, ny, i-1, j, k)]
 		  - 6.0 * myA0[Index3D (nx, ny, i, j, k)] / (fac*fac);
 	      }
 	    }
 	  }
+	  temp_ptr = myA0;
+	  myA0 = myAnext;
+	  myAnext = temp_ptr;
 	}
       }
     }

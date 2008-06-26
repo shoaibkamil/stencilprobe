@@ -21,7 +21,7 @@ void StencilInit(int nx,int ny,int nz, /* size of the array */
 
   for(i=0;i<last;i++) 
 #ifdef _RANDOMVALUES_
-	A[i]=(float)rand()/RAND_MAX;;
+	A[i]=(float)rand()/RAND_MAX;
 #else
 	A[i]=1.0;
 #endif
