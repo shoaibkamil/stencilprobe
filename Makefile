@@ -14,7 +14,7 @@ probe:	main.c util.c run.h probe_heat.c cycle.h
 	$(CC) $(COPTFLAGS) main.c util.c probe_heat.c $(CLDFLAGS) -o probe
 
 circqueue_probe:	main.c util.c run.h probe_heat_circqueue.c cycle.h
-	$(CC) $(COPTFLAGS) main.c util.c probe_heat_circqueue.c $(CLDFLAGS) -o probe
+	$(CC) $(COPTFLAGS) -DCIRCULARQUEUEPROBE main.c util.c probe_heat_circqueue.c $(CLDFLAGS) -o probe
 
 timeskew_probe:	main.c util.c run.h probe_heat_timeskew.c cycle.h
 	$(CC) $(COPTFLAGS) main.c util.c probe_heat_timeskew.c $(CLDFLAGS) -o probe

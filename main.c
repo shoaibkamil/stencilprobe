@@ -62,7 +62,13 @@ int main(int argc,char *argv[])
     /* initialize arrays to all ones */
     StencilInit(nx,ny,nz,Anext);
     StencilInit(nx,ny,nz,A0);
-    
+#ifdef CIRCULARQUEUEPROBE
+    if (timesteps > 1) {                                                                                                                      
+      CircularQueueInit(nx, ty, timesteps);                                                                                                   
+    }
+#endif    
+
+    // clear_cache();
     
     t1 = getticks();	
     

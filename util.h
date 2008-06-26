@@ -13,6 +13,8 @@ void StencilInit(int nx,int ny,int nz, /* size of the array */
 		 double *A); /* the array to initialize to 1's */
 
 
+void clear_cache();
+
 double seconds_per_tick();
 
 #endif

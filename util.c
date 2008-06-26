@@ -31,7 +31,6 @@ void StencilInit(int nx,int ny,int nz, /* size of the array */
   This function determines ticks per second.
   Inspired by OSKI function (bebop.cs.berkeley.edu)
 */
-
 double seconds_per_tick()
 {
 	ticks t0,t1;
@@ -50,4 +49,19 @@ double seconds_per_tick()
 	}
 
 	return spt;
+}
+
+/*
+  Function to clear the cache, preventing data items in cache
+  from making subsequent trials run faster.
+*/
+void clear_cache()
+{
+  int i;
+  float* tarray, accum;
+
+  tarray = (float*) malloc(sizeof(float)*1310720);
+  for (i=0,accum=0; i<1310719; i++)
+    tarray[i] = 1.0;
+
 }
